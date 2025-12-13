@@ -1,5 +1,4 @@
-import { Controller, Post, Res, UseGuards } from '@nestjs/common';
-import { LocalAuthGuard } from './guards/local-auth.guard';
+import { Controller, Post, Res } from '@nestjs/common';
 import { CurrentUser } from './current-user.decorator';
 import { User } from 'src/users/entities/user.entity';
 import type { Response } from 'express';
@@ -10,7 +9,6 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  @UseGuards(LocalAuthGuard)
   async login(
     @CurrentUser() user: User,
     @Res({ passthrough: true }) response: Response,
