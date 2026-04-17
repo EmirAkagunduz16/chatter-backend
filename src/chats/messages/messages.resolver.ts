@@ -38,7 +38,7 @@ export class MessagesResolver {
 
   @Subscription(() => Message, {
     filter: (payload, variables, context) => {
-      const userId = context.request.user._id;
+      const userId = context.user._id;
       const message: Message = payload.messageCreated;
       return (
         message.chatId === variables.chatId &&

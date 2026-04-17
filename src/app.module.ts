@@ -32,13 +32,21 @@ import { AuthService } from './auth/auth.service';
               try {
                 const request: Request = context.extra.request;
                 const user = authService.verifyWs(request);
-                context.user = user;
+                context.extra.user = user;
               } catch (error) {
                 new Logger().error(error);
                 throw new UnauthorizedException();
               }
             },
           },
+        },
+        context: (ctx: any) => {
+          // For WebSocket subscriptions, ctx.extra contains the connection context
+          // where onConnect stored the user. Forward it so resolvers/filters can access it.
+          if (ctx?.extra?.user) {
+            return { user: ctx.extra.user };
+          }
+          return { req: ctx.req };
         },
       }),
       imports: [AuthModule],
