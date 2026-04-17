@@ -42,7 +42,7 @@ export class MessagesResolver {
       const message: Message = payload.messageCreated;
       return (
         message.chatId === variables.chatId &&
-        userId !== message.user._id.toHexString()
+        userId !== message.user._id.toString()
       );
     },
   })
