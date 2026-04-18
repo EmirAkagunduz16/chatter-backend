@@ -5,6 +5,8 @@ phases:
       nodejs: latest
     commands:
       - npm install -g pnpm
+  pre_build:
+    commands:
       - pnpm install
 
   build:
