@@ -26,7 +26,6 @@ import { AuthService } from './auth/auth.service';
       driver: ApolloDriver,
       useFactory: (authService: AuthService) => ({
         autoSchemaFile: true,
-        cors: true,
         subscriptions: {
           'graphql-ws': {
             onConnect: (context: any) => {
