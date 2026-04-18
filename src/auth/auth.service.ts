@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import { User } from 'src/users/entities/user.entity';
 import { TokenPayload } from './token-payload.interface';
 import { JwtService } from '@nestjs/jwt';
+import { getJwt } from './jwt';
 
 @Injectable()
 export class AuthService {
@@ -33,13 +34,13 @@ export class AuthService {
     return token;
   }
 
-  verifyWs(request: Request): TokenPayload {
+  verifyWs(request: Request, connectionParams: any = {}): TokenPayload {
     const cookies: string[] | undefined = request.headers.cookie?.split('; ');
     const authCookie = cookies?.find((cookie) =>
       cookie.includes('Authentication'),
     );
     const jwt = authCookie?.split('Authentication=')[1];
-    return this.jwtService.verify(jwt!);
+    return this.jwtService.verify(jwt || getJwt(connectionParams.token)!);
   }
 
   logout(response: Response) {
